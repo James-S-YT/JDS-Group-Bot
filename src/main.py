@@ -6,24 +6,35 @@ import os
 
 # Nextcord modules.
 import nextcord
+from nextcord.ext import commands
 
 #? ......................[ Variables ].........................
-# Tokens
+#* Tokens
 _Token = (os.getenv('token'))     #<- discord bot token>
 
-# Admin IDs
-_adminUserID = [395592439110565898]
-_adminGuildID = 909422700462751755
+#* Admin IDs
+_adminUserID  = [ 395592439110565898 ]  # <- IDs of Admin Users
+_adminGuildID = [ 909422700462751755 ]  # <- ID of Admin Guild (Server)
 
-#? ......................[ Client config ].....................
+
+#? ......................[ Client init ].......................
 intents = nextcord.Intents.all()
 intents.members = True
-client = nextcord.Bot(command_prefix = "", intents = intents)
+client = commands.Bot(command_prefix = "jb!", intents = intents)
 
-#? ......................[ Setup ].............................
+#? ......................[on_ready event].....................
 @client.event
 async def on_ready():
-    print(f"I'm logged in as {client.user}")
+    print("--------------------------------------------------")
+    print(f'''linked successfully!! 🟢
+
+Status:-
+Appication ID   : {client.user.id}
+Appication name : {client.user}
+State           : Online
+Ping            : {round(client.latency * 1000)}
+''')
+    print("--------------------------------------------------")
 
 #? ......................[Main-code]...........................
 # test cmd
