@@ -11,6 +11,7 @@ from nextcord.ext import commands
 #? ......................[ Variables ].........................
 #* Tokens
 _Token = (os.getenv('token'))     #<- discord bot token>
+from ../keys/apikeys import *
 
 #* Admin IDs
 _adminUserID  = [ 395592439110565898 ]  # <- IDs of Admin Users
@@ -45,4 +46,4 @@ async def status(ctx):
 
 #? ......................[ Run ]...............................
 if __name__ == '__main__' :
-    client.run(_Token)
+    client.run(BOTTOKEN)
