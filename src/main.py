@@ -8,10 +8,13 @@ import os
 import nextcord
 from nextcord.ext import commands
 
+#External modules.
+from dotenv import load_dotenv
+
 #? ......................[ Variables ].........................
 #* Tokens
+load_dotenv()
 _Token = (os.getenv('token'))     #<- discord bot token>
-from ../keys/apikeys import *
 
 #* Admin IDs
 _adminUserID  = [ 395592439110565898 ]  # <- IDs of Admin Users
@@ -46,4 +49,4 @@ async def status(ctx):
 
 #? ......................[ Run ]...............................
 if __name__ == '__main__' :
-    client.run(BOTTOKEN)
+    client.run(str(_Token))
