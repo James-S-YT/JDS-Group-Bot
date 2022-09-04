@@ -14,10 +14,10 @@ from dotenv import load_dotenv
 #? ......................[ Variables ].........................
 #* Tokens
 load_dotenv()
-_Token = (os.getenv('token'))     #<- discord bot token>
+_Token = os.getenv('token')     #<- discord bot token>
 
 #* Admin IDs
-_adminUserID  = [ 395592439110565898 ]  # <- IDs of Admin Users
+_adminUserID  = [ 395592439110565898, 557756298838409226 ]  # <- IDs of Admin Users
 _adminGuildID = [ 909422700462751755 ]  # <- ID of Admin Guild (Server)
 
 
@@ -44,8 +44,12 @@ Ping            : {round(client.latency * 1000)}
 # test cmd
 @client.command()
 async def status(ctx):
-    await ctx.send(f"I'm alive, \nand logged in as '{client.user}', \n**Ping:** *{round(client.latency * 1000)}*")
-    await ctx.send(f":sweat_smile:")
+    embed = nextcord.Embed(title= "Current Status", description="jBot", color=0x00ff00)
+    embed.add_field(name= "Appication ID", value= client.user.id, inline= False)
+    embed.add_field(name= "Appication name", value= client.user, inline= False)
+    embed.add_field(name= "State", value= "Online", inline= False)
+    embed.add_field(name= "Ping", value= round(client.latency * 1000), inline= False)
+    await ctx.send(embed = embed)
 
 #? ......................[ Run ]...............................
 if __name__ == '__main__' :
