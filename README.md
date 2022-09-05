@@ -37,6 +37,8 @@ bot is devloped using **_nextcord.py_** which is based on the discord.py library
 
 -   Current Version : v0.0.0
 
+    > Started working on **v1.1.0** Update patch
+
 <br>
 
 Check the [Change Log](./logs/changelog.md) to see what changes have been made to the project
