@@ -51,6 +51,12 @@ async def status(ctx):
     embed.add_field(name= "Ping", value= round(client.latency * 1000), inline= False)
     await ctx.send(embed = embed)
 
+#? ......................[ cog ]...............................
+for folder in os.listdir("./src/cogs"):
+    for file in os.listdir(f"./src/cogs/{folder}"):
+        if file.endswith(".py"):
+            client.load_extension(f"cogs.{folder}.{file[:-3]}")
+
 #? ......................[ Run ]...............................
 if __name__ == '__main__' :
     client.run(str(_Token))
