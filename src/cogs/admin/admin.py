@@ -1,7 +1,9 @@
+# .........................[imports]............................
 import nextcord
 from nextcord import Interaction, SlashOption
 from nextcord.ext import commands
 
+# .........................[admin class]......................
 class Admin(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -17,5 +19,6 @@ class Admin(commands.Cog):
         if isinstance(error, nextcord.errors.Forbidden):
             await interaction.send("I or you don't have the required permissions.")
 
+# .........................[setup function]....................
 def setup(client):
     client.add_cog(Admin(client))
