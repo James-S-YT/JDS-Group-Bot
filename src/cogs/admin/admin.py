@@ -17,7 +17,18 @@ class Admin(commands.Cog):
     @kick.error
     async def kick_err(self, interaction : Interaction, error):
         if isinstance(error, nextcord.errors.Forbidden):
-            await interaction.send("I or you don't have the required permissions.")
+            await interaction.send("I or you don't have the required permissions.", ephemeral=True)
+
+    @nextcord.slash_command(name="ban", description="Bans a specified member.")
+    @commands.has_permissions(ban_members = True)
+    async def ban(self, interaction : Interaction, member : nextcord.Member = SlashOption(description="Member to ban", required=True), *, reason=None):
+        await member.ban(reason = reason)
+        await interaction.send(f'{member} has been banned.')
+
+    @ban.error
+    async def ban_err(self, interaction: Interaction, error):
+        if isinstance(error, nextcord.errors.Forbidden):
+            await interaction.send("I or you don't have the required permissions.", ephemeral=True)
 
 # .........................[setup function]....................
 def setup(client):
