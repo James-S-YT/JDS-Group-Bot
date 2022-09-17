@@ -34,7 +34,7 @@ class Admin(commands.Cog):
         else:
             raise error
 
-    @nextcord.slash_command(name="ban", description="Unbans a specified member.")
+    @nextcord.slash_command(name="unban", description="Unbans a specified member.")
     @commands.has_permissions(ban_members=True)
     async def unban(self, interaction : Interaction, member : nextcord.Member = SlashOption(description="Member to unban", required=True), *, reason=None):
         await member.unban(reason = reason)
