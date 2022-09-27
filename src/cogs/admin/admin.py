@@ -6,6 +6,9 @@ from nextcord import Interaction, SlashOption
 from nextcord.ext import commands
 
 def time2sec(time):
+    """
+    Converts a given time all in seconds. (5m20s --> 320s)
+    """
     # There is actually a library to make this whole thing easier, humanfriendly, but it would add a dependency.
     mult = {
         'ms': 0.001, 
@@ -20,11 +23,11 @@ def time2sec(time):
     nb = ''
     unit = ''
     for i in time:
-        try:
+        try: #This tries int(i), so it works if i is a number but goes into the except if it is a letter.
             int(i)
             nb += i
         except:
-                unit += i
+            unit += i
     ftime = float(int(nb)*mult[unit])
     return ftime 
 
@@ -42,7 +45,7 @@ class Admin(commands.Cog):
     @kick.error
     async def kick_err(self, interaction : Interaction, error):
         if isinstance(error, nextcord.errors.Forbidden):
-            await interaction.send("I or you don't have the required permissions.", ephemeral=True)
+            await interaction.send("You or I don't have the required permission.", ephemeral=True)
         else:
             raise error
 
@@ -59,7 +62,7 @@ class Admin(commands.Cog):
         else:
             raise error
 
-    @nextcord.slash_command(name="timeout", description="Unbans a specified member.")
+    @nextcord.slash_command(name="unban", description="Unbans a specified member.")
     @commands.has_permissions(ban_members=True)
     async def unban(self, interaction : Interaction, member : nextcord.Member = SlashOption(description="Member to unban", required=True), *, reason=None):
         await member.unban(reason = reason)
@@ -68,21 +71,21 @@ class Admin(commands.Cog):
     @unban.error
     async def unban_err(self, interaction: Interaction, error):
         if isinstance(error, nextcord.errors.Forbidden):
-            await interaction.send("I or you don't have the required permissions.", ephemeral=True)
+            await interaction.send("You or I don't have the required permission.", ephemeral=True)
         else:
             raise error
 
-    @nextcord.slash_command(name="timeout", description="timeouts a specified member.")
+    @nextcord.slash_command(name="mute", description="Mutes a specified member.")
     @commands.has_permissions(moderate_members=True)
-    async def timeout(self, interaction : Interaction, member : nextcord.Member = SlashOption(description="Member to timeout", required=True), time : str = SlashOption(description = "Duration of the timeout. (50s, 4h, 7d...)", required=True) ,*, reason=None):
+    async def timeout(self, interaction : Interaction, member : nextcord.Member = SlashOption(description="Member to mute", required=True), time : str = SlashOption(description = "Mute duration. (50s, 4h, 7d...)", required=True) ,*, reason=None):
         ftime = time2sec(time)
         await member.timeout(timeout = nextcord.utils.utcnow() + datetime.timedelta(seconds = ftime), reason = reason)
-        await interaction.send(f'{member} has been timeouted for {time}.')
+        await interaction.send(f'{member} has been muted for {time}.')
 
     @timeout.error
     async def timeout_err(self, interaction: Interaction, error):
         if isinstance(error, nextcord.errors.Forbidden):
-            await interaction.send("I or you don't have the required permissions.", ephemeral=True)
+            await interaction.send("You or I don't have the required permission.", ephemeral=True)
         else:
             raise error
 
@@ -95,23 +98,23 @@ class Admin(commands.Cog):
     @untimeout.error
     async def untimeout_err(self, interaction: Interaction, error):
         if isinstance(error, nextcord.errors.Forbidden):
-            await interaction.send("I or you don't have the required permissions.", ephemeral=True)
+            await interaction.send("You or I don't have the required permission.", ephemeral=True)
         else:
             raise error
 
-    @nextcord.slash_command(name="tempban", description="Ban temporairement un membre du serveur", guild_ids=ids)
+    @nextcord.slash_command(name="tempban", description="Temporarily bans a specified member.")
     @commands.has_permissions(ban_members=True)
-    async def tempban(self, interaction : Interaction, member : nextcord.Member = SlashOption(description="Member to unban", required=True),time : str = SlashOption(description = "Duration of the timeout. (50s, 4h, 7d...)", required=True), *, reason=None):
+    async def tempban(self, interaction : Interaction, member : nextcord.Member = SlashOption(description="Member to tempban", required=True),time : str = SlashOption(description = "Duration of the ban. (50s, 4h, 7d...)", required=True), *, reason=None):
         await member.ban(reason = reason)
-        await interaction.send(f'{member} a été ban.')
+        await interaction.send(f'{member} has been banned.')
         await asyncio.sleep(time2sec(time))
         await member.unban()
-        await interaction.send(f'{member} a été unban.')
+        await interaction.send(f'{member} has been unbanned.')
 
     @tempban.error
     async def tempban_err(self, interaction: Interaction, error):
         if isinstance(error, nextcord.errors.Forbidden):
-            await interaction.send("Vous ou je n'ai pas les permissions requises.", ephemeral=True)
+            await interaction.send("You or I don't have the required permission.", ephemeral=True)
         else:
             raise error
 
