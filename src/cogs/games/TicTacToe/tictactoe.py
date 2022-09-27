@@ -1,3 +1,4 @@
+# .........................[tictactoe class]......................
 class TicTacToe:
     def __init__(self):
         self.turn = 1
@@ -8,6 +9,7 @@ class TicTacToe:
         ]
 
     def play(self, move, pos):
+        #Sets the value of the grid to the player's sign, x or o only if it is a 0, an empty case
         if self.board[pos[0]][pos[1]] == 0:
             self.board[pos[0]][pos[1]] = move
             self.turn += 1
@@ -38,12 +40,14 @@ class TicTacToe:
             return self.grid[1][1]
 
         #Check Tie
+        #Counting every 0's in the grid
         comp = 0
         for i in self.grid:
             for j in i:
                 if j == 0:
                     comp+=1
         
+        #If there is no 0's there is no empty case
         if comp == 0:
             return 0
         
