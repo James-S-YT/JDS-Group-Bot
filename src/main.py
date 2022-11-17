@@ -46,7 +46,16 @@ Ping            : {round(client.latency * 1000)}
 async def status(ctx):
     await ctx.send(f"I'm alive, \nand logged in as '{client.user}', \n**Ping:** *{round(client.latency * 1000)}*")
     await ctx.send(f":sweat_smile:")
+ 
+# Cogs
+innitial_extensions = []
+
+for i in os.listdir("cogs"):
+    if i.endswith(".py"):
+        innitial_extensions.append("cogs." + i[:-3])
 
 #? ......................[ Run ]...............................
 if __name__ == '__main__' :
+    for extension in innitial_extensions:
+        client.load_extension(extension)
     client.run(str(_Token))
